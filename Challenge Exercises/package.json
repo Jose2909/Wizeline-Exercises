@@ -1,0 +1,16 @@
+{
+  "name": "testcafe_challenge",
+  "version": "1.0.0",
+  "description": "Challenge",
+  "main": "index.js",
+  "scripts": {
+    "test-all-browsers": "testcafe chrome,firefox,edge ./page_model/tests/Login.test.js",
+    "test-purchase-chrome": "testcafe chrome ./page_model/tests/Purchase.test.js"  
+  },
+  "author": "Jose_Cisneros",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "8.2.0"
+  },
+  "devDependencies": {}
+}
