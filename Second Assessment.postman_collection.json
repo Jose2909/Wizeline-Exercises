@@ -1,0 +1,477 @@
+{
+	"info": {
+		"_postman_id": "4181cac7-c4c6-4c1c-9632-dc89bdbc603c",
+		"name": "Second Assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a New Project",
+			"item": [
+				{
+					"name": "Create Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f000dd52-d33d-479f-a360-fef7425468a0",
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"projectId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-Requested-Id",
+								"value": "$(uuidgen)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Assessment\"\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/projects",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Get active tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fa456733-40b5-42da-9625-bc369e5a8863",
+								"exec": [
+									"",
+									"pm.test(\"Valid Response in json format\", function () {",
+									"    pm.response.to.not.be.error;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Status Code - negative scenario\", function () {",
+									"    pm.response.to.have.status(\"No Content\");",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/tasks",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a New Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5e883d8c-5e19-49c1-8148-ffeaa46dd986",
+								"exec": [
+									"pm.test(\"Valid Response in json format\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Status Code - negative scenario\", function () {",
+									"    pm.response.to.have.status(\"No Content\");",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"taskId\", jsonData.id);",
+									"pm.environment.set(\"contentDDT\", jsonData.content);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-Requested-Id",
+								"value": "$(uuidgen)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\": \"{{contentDDT}}\",\n\t\"due_string\": \"Mañana 12:00\", \n\t\"due_lang\": \"en\", \n\t\"priority\": 4\n\t\n}\n\n"
+						},
+						"url": {
+							"raw": "{{baseURL}}/tasks",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an Active Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "567563ea-639d-4233-94b4-d1ae2473dff5",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"var taskID = pm.variables.get(\"taskId\");",
+									"var contentname = pm.variables.get(\"content\");",
+									"",
+									"pm.test(\"Id is \" + taskID, function () {",
+									"    pm.expect(jsonData.id).to.eql(jsonData.id,taskID);",
+									"});",
+									"",
+									"pm.test(\"Content\" + contentname, function () {",
+									"    pm.expect(jsonData.content).to.eql(contentname);",
+									"    ",
+									"});",
+									"",
+									"pm.test(\"Status Code - negative scenario\", function () {",
+									"    pm.response.to.have.status(\"No Content\");",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/tasks/{{taskId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "42560215-b442-4091-a4c7-08e03e73cc80",
+								"exec": [
+									"pm.test(\"Status Code - negative scenario\", function () {",
+									"    pm.response.to.have.status(\"OK\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-Requested-Id",
+								"value": "$(uuidgen)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\": \"{{contentDDT}}\"\n\t\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/tasks/{{taskId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change a Task status to Complete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e825b18b-dfe2-4b50-82cc-3adab305674b",
+								"exec": [
+									"",
+									"",
+									"",
+									"pm.test(\"Status Code - negative scenario\", function () {",
+									"    pm.response.to.have.status(\"OK\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/tasks/{{taskId}}/close",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}",
+								"close"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reopen  a Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "96e54996-2547-4309-b292-7e3d6d3944c3",
+								"exec": [
+									"pm.test(\"Status Code - negative scenario\", function () {",
+									"    pm.response.to.have.status(\"OK\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/tasks/{{taskId}}/reopen",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}",
+								"reopen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1c2fceae-d72a-4ac5-a58b-5014d6f7385f",
+								"exec": [
+									"pm.test(\"Status Code - negative scenario\", function () {",
+									"    pm.response.to.have.status(\"OK\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/tasks/{{taskId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "71192746-9991-4679-94f5-0e70cc9d0928",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "747204e8-b49b-4aa6-b67d-02afabd5d7c3",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 2XX\", function () {",
+					"    pm.response.to.be.success;",
+					"});",
+					"",
+					"pm.test(\"Valid Response in less than 500ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(500);",
+					"    pm.response.to.not.be.error;",
+					"});"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

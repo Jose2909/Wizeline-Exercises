@@ -1,0 +1,16 @@
+{
+  "name": "backend-cli",
+  "version": "1.0.0",
+  "description": "backend postman automation",
+  "main": "index.js",
+  "scripts": {
+    "testApi": "newman run './Assestment/tests/backend/collections/Second Assessment.postman_collection.json' -e './Assestment/tests/backend/envVariables/Wizeline Assessment.postman_environment.json' -r htmlextra --reporter-htmlextra-export './Assestment/tests/backend/reports.html'"
+  },
+  "author": "JoseCA",
+  "license": "ISC",
+  "dependencies": {
+    "newman": "^5.2.2",
+    "newman-reporter-htmlextra": "^1.20.1"
+  },
+  "devDependencies": {}
+}
